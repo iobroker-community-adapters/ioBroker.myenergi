@@ -6,7 +6,7 @@
     "name": "TA2k",
     "email": "tombox2020@gmail.com"
   },
-  "homepage": "https://github.com/TA2k/ioBroker.myenergi",
+  "homepage": "https://github.com/iobroker-community-adapters/ioBroker.myenergi",
   "license": "MIT",
   "keywords": [
     "myenergi",
@@ -15,7 +15,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/TA2k/ioBroker.myenergi.git"
+    "url": "https://github.com/iobroker-community-adapters/ioBroker.myenergi.git"
   },
   "engines": {
     "node": ">= 14"
@@ -78,7 +78,7 @@
     "translate": "translate-adapter"
   },
   "bugs": {
-    "url": "https://github.com/TA2k/ioBroker.myenergi/issues"
+    "url": "https://github.com/iobroker-community-adapters/ioBroker.myenergi/issues"
   },
   "readmeFilename": "README.md"
 }

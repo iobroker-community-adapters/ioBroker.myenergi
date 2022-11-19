@@ -9,7 +9,7 @@
 
 [![NPM](https://nodei.co/npm/iobroker.myenergi.png?downloads=true)](https://nodei.co/npm/iobroker.myenergi/)
 
-**Tests:** ![Test and Release](https://github.com/TA2k/ioBroker.myenergi/workflows/Test%20and%20Release/badge.svg)
+**Tests:** ![Test and Release](https://github.com/iobroker-community-adapters/ioBroker.myenergi/workflows/Test%20and%20Release/badge.svg)
 
 ## myenergi adapter for ioBroker
 
@@ -19,7 +19,7 @@ Adapter for Myenergi devices
 
 ### 0.0.1
 
--   (TA2k) initial release
+- (TA2k) initial release
 
 ## License
 
