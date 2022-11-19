@@ -55,7 +55,7 @@ class Myenergi extends utils.Adapter {
     await this.updateDevices();
     this.updateInterval = setInterval(async () => {
       await this.updateDevices();
-    }, this.config.interval * 1e3);
+    }, this.config.interval * 1e3 * 60);
   }
   async getDeviceList() {
     this.hub = new import_myenergi_api.MyEnergi(this.config.username, this.config.password);
