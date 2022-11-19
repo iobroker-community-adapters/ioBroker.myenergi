@@ -1,0 +1,62 @@
+{
+  "i18n": false,
+  "items": {
+    "username": {
+      "type": "text",
+      "label": {
+        "en": "Hub Serialnumber",
+        "de": "Hub Seriennummer",
+        "ru": "Хаб Serialnumber",
+        "pt": "Número de série do Hub",
+        "nl": "Hub Serial",
+        "fr": "Hub Serialnumber",
+        "it": "Numero di serie",
+        "es": "Número de serie",
+        "pl": "Obserwacja",
+        "uk": "Хаб Серіалномер",
+        "zh-cn": "海报编号"
+      },
+      "newLine": true,
+      "sm": 3
+    },
+    "password": {
+      "type": "password",
+      "newLine": true,
+      "repeat": false,
+      "visible": true,
+      "sm": 3,
+      "label": {
+        "en": "API Key",
+        "de": "API Schlüssel",
+        "ru": "API Ключ",
+        "pt": "API Chaveiro",
+        "nl": "API Sleutel",
+        "fr": "API Key",
+        "it": "API Chiave",
+        "es": "API Clave",
+        "pl": "API Key",
+        "uk": "Контакти Головна",
+        "zh-cn": "导 言 关键"
+      }
+    },
+
+    "interval": {
+      "type": "number",
+      "newLine": true,
+      "min": 1,
+      "sm": 2,
+      "label": {
+        "en": "Update interval (in minutes)",
+        "de": "Aktualisierungsintervall (in Minuten)",
+        "ru": "Интервал обновления (в минутах)",
+        "pt": "Intervalo de atualização (em minutos)",
+        "nl": "Update-interval (in minuten)",
+        "fr": "Intervalle de mise à jour (en minutes)",
+        "it": "Intervallo di aggiornamento (in minuti)",
+        "es": "Intervalo de actualización (en minutos)",
+        "pl": "Interwał aktualizacji (w minutach)",
+        "zh-cn": "更新间隔（分钟）"
+      }
+    }
+  }
+}
