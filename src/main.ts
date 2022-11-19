@@ -10,7 +10,6 @@ import { MyEnergi } from "./lib/myenergi-api";
 
 class Myenergi extends utils.Adapter {
   private devices: [];
-  private deviceObjects: { [key: string]: any };
   private json2iob: Json2iob;
   private hub: MyEnergi;
   updateInterval: any = null;
@@ -30,7 +29,6 @@ class Myenergi extends utils.Adapter {
     this.on("unload", this.onUnload.bind(this));
     this.devices = {};
 
-    this.deviceObjects = {};
     this.json2iob = new Json2iob(this);
   }
 
@@ -81,7 +79,6 @@ class Myenergi extends utils.Adapter {
       for (const device of deviceArray) {
         device.type = type;
         const id = device.sno.toString();
-        this.deviceObjects[id] = device;
         let name = type + " " + id;
 
         await this.setObjectNotExistsAsync(id, {
@@ -262,7 +259,7 @@ class Myenergi extends utils.Adapter {
           this.refreshTimeout && clearTimeout(this.refreshTimeout);
           this.refreshTimeout = setTimeout(async () => {
             await this.updateDevices();
-          }, 5 * 1000);
+          }, 25 * 1000);
         } catch (error) {
           this.log.error(error);
           this.log.error(error.stack);

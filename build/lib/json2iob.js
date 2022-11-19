@@ -32,7 +32,7 @@ var import_json_bigint = __toESM(require("json-bigint"));
 class Json2iob {
   constructor(adapter) {
     this.description = {
-      sno: "Harvi serial no",
+      sno: "serial no",
       dat: "Date",
       tim: "Time",
       ectp1: " Physical CT connection 1 value Watts",

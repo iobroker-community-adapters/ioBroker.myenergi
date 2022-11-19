@@ -34,7 +34,6 @@ class Myenergi extends utils.Adapter {
     this.on("stateChange", this.onStateChange.bind(this));
     this.on("unload", this.onUnload.bind(this));
     this.devices = {};
-    this.deviceObjects = {};
     this.json2iob = new import_json2iob.default(this);
   }
   async onReady() {
@@ -76,7 +75,6 @@ class Myenergi extends utils.Adapter {
       for (const device of deviceArray) {
         device.type = type;
         const id = device.sno.toString();
-        this.deviceObjects[id] = device;
         let name = type + " " + id;
         await this.setObjectNotExistsAsync(id, {
           type: "device",
@@ -241,7 +239,7 @@ class Myenergi extends utils.Adapter {
           this.refreshTimeout && clearTimeout(this.refreshTimeout);
           this.refreshTimeout = setTimeout(async () => {
             await this.updateDevices();
-          }, 5 * 1e3);
+          }, 25 * 1e3);
         } catch (error) {
           this.log.error(error);
           this.log.error(error.stack);

@@ -323,7 +323,7 @@ export default class Json2iob {
     return "state";
   }
   description = {
-    sno: "Harvi serial no",
+    sno: "serial no",
     dat: "Date",
     tim: "Time",
     ectp1: " Physical CT connection 1 value Watts",
