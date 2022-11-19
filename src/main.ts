@@ -247,40 +247,28 @@ class Myenergi extends utils.Adapter {
         }
 
         if (command === "Refresh") {
-          this.deviceObjects[deviceId]
-            .getDeviceInfo()
-            .then((sysInfo: any) => {
-              this.log.debug(JSON.stringify(sysInfo));
-              this.json2iob.parse(deviceId, sysInfo);
-            })
-            .catch((error) => {
-              this.log.error(`Get Device Info failed for ${deviceId} - ${error}`);
-            });
-
+          this.updateDevices();
           return;
         }
         try {
-          if (this.deviceObjects[deviceId] && this.deviceObjects[deviceId][command]) {
-            if (command === "setColor") {
-              const valueSplit = state.val.split(", ");
-              const result = await this.deviceObjects[deviceId][command](valueSplit[0], valueSplit[1]);
-              this.log.info(JSON.stringify(result));
-            } else {
-              const result = await this.deviceObjects[deviceId][command](state.val);
-              this.log.info(JSON.stringify(result));
-            }
-            this.refreshTimeout && clearTimeout(this.refreshTimeout);
-            this.refreshTimeout = setTimeout(async () => {
-              await this.updateDevices();
-            }, 2 * 1000);
+          if (command === "setZappiBoostMode") {
+            const valueArray = JSON.parse(state.val);
+            const result = await this.hub.setZappiBoostMode(deviceId, valueArray[0], valueArray[1], valueArray[2]);
+            this.log.info(JSON.stringify(result));
           } else {
-            this.log.error(`Device ${deviceId} has no command ${command}`);
+            const result = await this.hub[command](deviceId, state.val);
+            this.log.info(JSON.stringify(result));
           }
+          this.refreshTimeout && clearTimeout(this.refreshTimeout);
+          this.refreshTimeout = setTimeout(async () => {
+            await this.updateDevices();
+          }, 5 * 1000);
         } catch (error) {
           this.log.error(error);
+          this.log.error(error.stack);
         }
       } else {
-        const resultDict = { device_on: "setPowerState" };
+        const resultDict = { zmo: " setZappiChargeMode", mgl: " setZappiGreenLevel" };
         const idArray = id.split(".");
         const stateName = idArray[idArray.length - 1];
         const deviceId = id.split(".")[2];

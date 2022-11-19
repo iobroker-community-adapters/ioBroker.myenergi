@@ -52,6 +52,9 @@ export default class Json2iob {
         if (typeof element === "number") {
           name = element.toString();
         }
+        if (this.description[path]) {
+          name = this.description[path];
+        }
         if (!this.alreadyCreatedObjects[path]) {
           await this.adapter
             .setObjectNotExistsAsync(path, {
@@ -115,6 +118,9 @@ export default class Json2iob {
             let objectName = key;
             if (options.descriptions && options.descriptions[key]) {
               objectName = options.descriptions[key];
+            }
+            if (this.description[objectName]) {
+              objectName = this.description[objectName];
             }
             const type = element[key] !== null ? typeof element[key] : "mixed";
             const common = {
@@ -316,4 +322,40 @@ export default class Json2iob {
     }
     return "state";
   }
+  description = {
+    sno: "Harvi serial no",
+    dat: "Date",
+    tim: "Time",
+    ectp1: " Physical CT connection 1 value Watts",
+    ectp2: " Physical CT connection 2 value Watts",
+    ectp3: " Physical CT connection 3 value Watts",
+    ectt1: "CT 1 Name",
+    ectt2: "CT 2 Name",
+    ectt3: "CT 3 Name",
+    ect1p: " CT 1 Phase",
+    ect2p: " CT 2 Phase",
+    ect3p: " CT 3 Phase",
+    fwv: "Firmware version",
+    bsm: "Boost Mode - 1 if boosting",
+    che: "total kWh tranferred this session (today?)",
+    cmt: "Command Timer - counts 1 - 10 when command sent, then 254 - success, 253 - failure, 255 - never received any commands",
+    div: "Diversion amount Watts",
+    dst: "Daylight Savings Time enabled",
+    frq: "Supply Frequency",
+    gen: "Generated Watts",
+    grd: "Current Watts from Grid (negative if sending to grid)",
+    hno: "Currently active heater (1/2)",
+    ht1: "Heater 1 name",
+    ht2: "Heater 2 name",
+    pha: "phase number or number of phases?",
+    pri: "priority",
+    r1a: "Have never seen this ?",
+    r2a: "Have never seen this  ?",
+    r2b: "Have never seen this  ?",
+    rbt: "If boosting, the remaining boost time in of seconds",
+    sta: "Status 1=Paused, 3=Diverting, 4=Boost, 5=Max Temp Reached, 6=Stopped",
+    tp: "temperature probe 1 (50 C)",
+    tp2: "temperature probe 2",
+    vol: "Voltage out (divide by 10)",
+  };
 }
