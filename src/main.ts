@@ -80,7 +80,7 @@ class Myenergi extends utils.Adapter {
 
       for (const device of deviceArray) {
         device.type = type;
-        const id = device.sno;
+        const id = device.sno.toString();
         this.deviceObjects[id] = device;
         let name = type + " " + id;
 
@@ -200,7 +200,7 @@ class Myenergi extends utils.Adapter {
 
         for (const device of deviceArray) {
           device.type = type;
-          const id = device.sno;
+          const id = device.sno.toString();
 
           this.json2iob.parse(id, device);
         }

@@ -75,7 +75,7 @@ class Myenergi extends utils.Adapter {
       this.log.info(`Found device: ${type} - ${deviceArray.length}`);
       for (const device of deviceArray) {
         device.type = type;
-        const id = device.sno;
+        const id = device.sno.toString();
         this.deviceObjects[id] = device;
         let name = type + " " + id;
         await this.setObjectNotExistsAsync(id, {
@@ -190,7 +190,7 @@ class Myenergi extends utils.Adapter {
         }
         for (const device of deviceArray) {
           device.type = type;
-          const id = device.sno;
+          const id = device.sno.toString();
           this.json2iob.parse(id, device);
         }
       }
