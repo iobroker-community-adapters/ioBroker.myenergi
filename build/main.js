@@ -247,7 +247,7 @@ class Myenergi extends utils.Adapter {
           this.log.error(error.stack);
         }
       } else {
-        const resultDict = { zmo: " setZappiChargeMode", mgl: " setZappiGreenLevel" };
+        const resultDict = { zmo: "setZappiChargeMode", mgl: "setZappiGreenLevel" };
         const idArray = id.split(".");
         const stateName = idArray[idArray.length - 1];
         const deviceId = id.split(".")[2];

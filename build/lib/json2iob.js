@@ -38,6 +38,9 @@ class Json2iob {
       ectp1: " Physical CT connection 1 value Watts",
       ectp2: " Physical CT connection 2 value Watts",
       ectp3: " Physical CT connection 3 value Watts",
+      ectp4: " Physical CT connection 4 value Watts",
+      ectp5: " Physical CT connection 5 value Watts",
+      ectp6: " Physical CT connection 6 value Watts",
       ectt1: "CT 1 Name",
       ectt2: "CT 2 Name",
       ectt3: "CT 3 Name",
@@ -45,8 +48,8 @@ class Json2iob {
       ect2p: " CT 2 Phase",
       ect3p: " CT 3 Phase",
       fwv: "Firmware version",
-      bsm: "Boost Mode - 1 if boosting",
-      che: "total kWh tranferred this session (today?)",
+      bsm: "Boost Mode Manual",
+      che: "Latest charge session. Charge added in kWh",
       cmt: "Command Timer - counts 1 - 10 when command sent, then 254 - success, 253 - failure, 255 - never received any commands",
       div: "Diversion amount Watts",
       dst: "Daylight Savings Time enabled",
@@ -65,7 +68,14 @@ class Json2iob {
       sta: "Status 1=Paused, 3=Diverting, 4=Boost, 5=Max Temp Reached, 6=Stopped",
       tp: "temperature probe 1 (50 C)",
       tp2: "temperature probe 2",
-      vol: "Voltage out (divide by 10)"
+      vol: "Voltage out (divide by 10)",
+      zmo: "Zappi Charge Mode",
+      bss: "Boost Mode Smart",
+      bst: "Boost Mode Timer",
+      pst: "Charger Status",
+      lck: "Lock Status",
+      ts: "Timezone",
+      mgl: "Minimum Green Level"
     };
     this.adapter = adapter;
     this.alreadyCreatedObjects = {};
