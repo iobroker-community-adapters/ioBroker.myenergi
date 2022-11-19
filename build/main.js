@@ -63,6 +63,7 @@ class Myenergi extends utils.Adapter {
       this.log.error("Error getting device list: " + error);
       return;
     });
+    this.setState("info.connection", true, true);
     this.log.debug(JSON.stringify(this.devices));
     for (const deviceObjects of this.devices) {
       const type = Object.keys(deviceObjects)[0];
