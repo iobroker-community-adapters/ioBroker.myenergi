@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../../src/lib/myenergi-api/models/AppKeyValues.ts"],
+  "sourcesContent": ["import { KeyValue } from './KeyValue';\n\nexport interface AppKeyValues {\n    [name: string]: KeyValue[]\n}\n"],
+  "mappings": ";;;;;;;;;;;;;;AAAA;AAAA;",
+  "names": []
+}

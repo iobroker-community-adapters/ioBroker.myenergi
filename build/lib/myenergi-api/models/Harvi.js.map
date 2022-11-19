@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../../src/lib/myenergi-api/models/Harvi.ts"],
+  "sourcesContent": ["export interface Harvi {\n    sno: string; // Harvi serial no\n    dat: string; // Date\n    tim: string; // Time\n    ectp1: number; // Physical CT connection 1 value Watts\n    ectp2: number; // Physical CT connection 2 value Watts\n    ectp3: number; // Physical CT connection 3 value Watts\n    ectt1: string; // CT 1 Name\n    ectt2: string; // CT 2 Name\n    ectt3: string; // CT 3 Name\n    ect1p: number; // CT 1 Phase\n    ect2p: number; // CT 2 Phase\n    ect3p: number; // CT 3 Phase\n    fwv: string; // Firmware version\n}\n"],
+  "mappings": ";;;;;;;;;;;;;;AAAA;AAAA;",
+  "names": []
+}
