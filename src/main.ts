@@ -9,7 +9,7 @@ import Json2iob from "./lib/json2iob";
 import { MyEnergi } from "./lib/myenergi-api";
 
 class Myenergi extends utils.Adapter {
-  private devices: { [key: string]: any };
+  private devices: [];
   private deviceObjects: { [key: string]: any };
   private json2iob: Json2iob;
   private hub: MyEnergi;
@@ -29,6 +29,7 @@ class Myenergi extends utils.Adapter {
     this.on("stateChange", this.onStateChange.bind(this));
     this.on("unload", this.onUnload.bind(this));
     this.devices = {};
+
     this.deviceObjects = {};
     this.json2iob = new Json2iob(this);
   }
@@ -53,35 +54,35 @@ class Myenergi extends utils.Adapter {
     this.session = {};
     this.subscribeStates("*");
 
-    this.log.info("Login myenergi");
-    this.hub = new MyEnergi(this.config.username, this.config.password);
-    await this.login();
-    if (this.session.token) {
-      await this.getDeviceList();
-
+    await this.getDeviceList();
+    await this.updateDevices();
+    this.updateInterval = setInterval(async () => {
       await this.updateDevices();
-      this.updateInterval = setInterval(async () => {
-        await this.updateDevices();
-      }, this.config.interval * 1000);
-    }
+    }, this.config.interval * 1000);
   }
 
   async getDeviceList(): Promise<void> {
-    await this.requestClient({}).then(async (res) => {
-      this.log.debug(JSON.stringify(res.data));
-      if (res.data.error_code) {
-        this.log.error(JSON.stringify(res.data));
-        return;
-      }
-      this.log.info(`Found ${res.data.result?.totalNum} devices`);
+    this.hub = new MyEnergi(this.config.username, this.config.password);
+    this.devices = await this.hub.getStatusAll().catch((error) => {
+      this.log.error("Error getting device list: " + error);
+      return;
+    });
+    this.log.debug(JSON.stringify(this.devices));
 
-      for (const device of res.data.result?.deviceList) {
-        const id = device.deviceId;
-        this.devices[id] = device;
-        let name = device.alias;
-        if (this.isBase64(device.alias)) {
-          name = Buffer.from(device.alias, "base64").toString("utf8");
-        }
+    for (const deviceObjects of this.devices) {
+      const type = Object.keys(deviceObjects)[0];
+      const deviceArray = deviceObjects[type];
+      if (typeof deviceArray !== "object") {
+        this.log.info(`skipping ${type}`);
+        continue;
+      }
+      this.log.info(`Found device: ${type} - ${deviceArray.length}`);
+
+      for (const device of deviceArray) {
+        device.type = type;
+        const id = device.sno;
+        this.deviceObjects[id] = device;
+        let name = type + " " + id;
 
         await this.setObjectNotExistsAsync(id, {
           type: "device",
@@ -98,32 +99,70 @@ class Myenergi extends utils.Adapter {
           native: {},
         });
 
-        const remoteArray = [
-          { command: "refresh", name: "True = Refresh" },
-          { command: "setPowerState", name: "True = On, False = Off" },
-          { command: "setAlertConfig", name: "True = On, False = Off" },
-          { command: "setLensMaskConfig", name: "True = On, False = Off" },
-          {
-            command: "setBrightness",
-            name: "Set Brightness for Light devices",
+        const remoteArray = [{ command: "refresh", name: "True = Refresh" }];
+        if (type === "zappi") {
+          remoteArray.push({
+            command: "setZappiChargeMode",
+            name: "Set the current charge mode",
             type: "number",
-            role: "level.brightness",
-            def: 5,
-          },
-          {
-            command: "setColorTemp",
-            name: "Set Color Temp for Light devices",
+            role: "value",
+            def: 4,
+            states: {
+              1: "Fast",
+              2: "Eco",
+              3: "EcoPlus",
+              4: "Off",
+            },
+          });
+          remoteArray.push({
+            command: "setZappiGreenLevel",
+            name: "Set minimum green level to decide how much grid power zappi uses to keep the 1.4kW minimum charge rate going.",
             type: "number",
-            role: "level.color.temperature",
-            def: 3000,
-          },
-          {
-            command: "setColor",
-            name: "Set Color for Light devices (hue, saturation)",
-            def: "30, 100",
+            role: "value",
+            def: 75,
+          });
+          remoteArray.push({
+            command: "setZappiBoostMode",
+            name: 'Boost battery [Mode, kwh, completeTime] Mode Manual 10, Mode Smart 11, Mode off 2 [10,22,"0615"]',
             type: "string",
-          },
-        ];
+            role: "value",
+            def: '[10,22,"0615"]',
+          });
+        }
+        if (type === "eddi") {
+          remoteArray.push({
+            command: "setEddiMode",
+            name: "Set the current charge mode",
+            type: "number",
+            role: "value",
+            def: 0,
+            states: {
+              1: "On",
+              0: "Off",
+            },
+          });
+          remoteArray.push({
+            command: "boostMinutes",
+            name: "Set the minutes for setEddiBoost",
+            type: "number",
+            role: "value",
+            def: 0,
+          });
+          remoteArray.push({
+            command: "setEddiBoost",
+            name: "Boost",
+            type: "string",
+            role: "value",
+            states: {
+              "1-1": "CancelHeater1",
+              "1-11": "CancelRelay1",
+              "1-12": "CancelRelay2",
+              "10-1": "ManualHeater1",
+              "10-11": "ManualRelay1",
+              "10-12": "ManualRelay2",
+            },
+          });
+        }
         remoteArray.forEach((remote) => {
           this.setObjectNotExists(id + ".remote." + remote.command, {
             type: "state",
@@ -132,6 +171,7 @@ class Myenergi extends utils.Adapter {
               type: remote.type || "boolean",
               role: remote.role || "boolean",
               def: remote.def || false,
+              states: remote.states || undefined,
               write: true,
               read: true,
             },
@@ -140,47 +180,30 @@ class Myenergi extends utils.Adapter {
         });
         this.json2iob.parse(id, device);
       }
-    });
+    }
   }
 
   async updateDevices(): Promise<void> {
     try {
-      for (const deviceId in this.deviceObjects) {
-        if (!this.deviceObjects[deviceId]._connected) {
+      this.devices = await this.hub.getStatusAll().catch((error) => {
+        this.log.error("Error getting device list: " + error);
+        return;
+      });
+      this.log.debug(JSON.stringify(this.devices));
+
+      for (const deviceObjects of this.devices) {
+        const type = Object.keys(deviceObjects)[0];
+        const deviceArray = deviceObjects[type];
+        if (typeof deviceArray !== "object") {
           continue;
         }
-        this.deviceObjects[deviceId]
-          .getDeviceInfo()
-          .then(async (sysInfo: any) => {
-            this.log.debug(JSON.stringify(sysInfo));
-            if (!sysInfo || sysInfo.name === "Error" || sysInfo.request) {
-              this.log.debug("Malformed response sysinfo");
-              // this.log.error(JSON.stringify(sysInfo));
-              return;
-            }
-            await this.json2iob.parse(deviceId, sysInfo);
-            if (this.deviceObjects[deviceId].getEnergyUsage) {
-              this.log.debug("Receive energy usage");
-              const energyUsage = await this.deviceObjects[deviceId].getEnergyUsage();
-              this.log.debug(JSON.stringify(energyUsage));
-              if (energyUsage.request) {
-                this.log.error("Malformed response getEnergyUsage");
-                this.log.error(JSON.stringify(energyUsage));
-                return;
-              }
-              await this.json2iob.parse(deviceId, energyUsage);
-              const power_usage = this.deviceObjects[deviceId].getPowerConsumption();
-              if (power_usage.request) {
-                this.log.error("Malformed response getPowerConsumption");
-                this.log.error(JSON.stringify(power_usage));
-                return;
-              }
-              await this.json2iob.parse(deviceId, power_usage);
-            }
-          })
-          .catch((error) => {
-            this.log.error(`Get Device Info failed for ${deviceId} - ${error}`);
-          });
+
+        for (const device of deviceArray) {
+          device.type = type;
+          const id = device.sno;
+
+          this.json2iob.parse(id, device);
+        }
       }
     } catch (error) {
       this.log.error(error);
