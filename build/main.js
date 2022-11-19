@@ -197,14 +197,14 @@ class Myenergi extends utils.Adapter {
               this.log.error("Error getting zappi day: " + error);
               return;
             });
-            this.json2iob.parse(id + ".history", day["U" + id]);
+            this.json2iob.parse(id + ".history", day["U" + id].slice(0, 10));
           }
           if (type === "eddi") {
             const day = await this.hub.getEddiDay(id, currentDate).catch((error) => {
               this.log.error("Error getting zappi day: " + error);
               return;
             });
-            this.json2iob.parse(id + ".history", day["U" + id]);
+            this.json2iob.parse(id + ".history", day["U" + id].slice(0, 10));
           }
         }
       }
