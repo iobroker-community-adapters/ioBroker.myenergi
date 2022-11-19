@@ -34,6 +34,8 @@ class MyEnergi {
       harvi_url: "/cgi-jstatus-H",
       status_url: "/cgi-jstatus-*",
       dayhour_url: "/cgi-jdayhour-",
+      zappi_day_url: "/cgi-jday-Z",
+      eddi_day_url: "/cgi-jday-E",
       zappi_mode_url: "/cgi-zappi-mode-Z",
       zappi_min_green_url: "/cgi-set-min-green-Z",
       eddi_mode_url: "/cgi-eddi-mode-E",
@@ -50,6 +52,28 @@ class MyEnergi {
   async getStatusAll() {
     try {
       const data = await this._digest.get(new URL(this._config.status_url, this._config.base_url));
+      const jsonData = JSON.parse(data);
+      return jsonData;
+    } catch (error) {
+      return [];
+    }
+  }
+  async getZappiDay(serialNumber, date) {
+    try {
+      const data = await this._digest.get(
+        new URL(`${this._config.zappi_day_url}${serialNumber}-${date}`, this._config.base_url)
+      );
+      const jsonData = JSON.parse(data);
+      return jsonData;
+    } catch (error) {
+      return [];
+    }
+  }
+  async getEddiDay(serialNumber, date) {
+    try {
+      const data = await this._digest.get(
+        new URL(`${this._config.eddi_day_url}${serialNumber}-${date}`, this._config.base_url)
+      );
       const jsonData = JSON.parse(data);
       return jsonData;
     } catch (error) {
@@ -102,7 +126,10 @@ class MyEnergi {
         kwh = 0;
         completeTime = "0000";
       }
-      const url = new URL(`${this._config.zappi_mode_url}${serialNo}-0-${boostMode}-${kwh}-${completeTime}`, this._config.base_url);
+      const url = new URL(
+        `${this._config.zappi_mode_url}${serialNo}-0-${boostMode}-${kwh}-${completeTime}`,
+        this._config.base_url
+      );
       const data = await this._digest.get(url);
       const jsonData = JSON.parse(data);
       return jsonData;
@@ -229,7 +256,9 @@ class MyEnergi {
   }
   async setAppKey(key, val) {
     try {
-      const data = await this._digest.get(new URL(`${this._config.set_app_key_url}-${key}=${val}`, this._config.base_url));
+      const data = await this._digest.get(
+        new URL(`${this._config.set_app_key_url}-${key}=${val}`, this._config.base_url)
+      );
       const jsonData = JSON.parse(data);
       if (jsonData) {
         const result = Object.assign({}, jsonData);

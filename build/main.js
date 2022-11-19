@@ -191,6 +191,21 @@ class Myenergi extends utils.Adapter {
           device.type = type;
           const id = device.sno.toString();
           this.json2iob.parse(id, device);
+          const currentDate = new Date().toISOString().split("T")[0];
+          if (type === "zappi") {
+            const day = await this.hub.getZappiDay(id, currentDate).catch((error) => {
+              this.log.error("Error getting zappi day: " + error);
+              return;
+            });
+            this.json2iob.parse(id + ".history", day["U" + id]);
+          }
+          if (type === "eddi") {
+            const day = await this.hub.getEddiDay(id, currentDate).catch((error) => {
+              this.log.error("Error getting zappi day: " + error);
+              return;
+            });
+            this.json2iob.parse(id + ".history", day["U" + id]);
+          }
         }
       }
     } catch (error) {
