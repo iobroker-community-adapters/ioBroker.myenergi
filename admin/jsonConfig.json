@@ -62,7 +62,7 @@
       "type": "checkbox",
       "label": {
         "en": "Minute History as JSON (High load)",
-        "de": "Minuten History als JSON (Hohe Last)",
+        "de": "Minutengenaue History des Tages als JSON (Vorsicht hohe Last und Speicherbedarf)",
         "ru": "Минутная история как JSON (высокая нагрузка)",
         "pt": "História Minuto como JSON (Alta carga)",
         "nl": "Minute History as JSON (High lading)",
