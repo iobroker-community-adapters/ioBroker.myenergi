@@ -57,6 +57,24 @@
         "pl": "Update interval (ang.)",
         "zh-cn": "最新间隔(第二期)"
       }
+    },
+    "minuteHistory": {
+      "type": "checkbox",
+      "label": {
+        "en": "Minute History as JSON (High load)",
+        "de": "Minuten History als JSON (Hohe Last)",
+        "ru": "Минутная история как JSON (высокая нагрузка)",
+        "pt": "História Minuto como JSON (Alta carga)",
+        "nl": "Minute History as JSON (High lading)",
+        "fr": "Historique des minutes comme JSON (charge élevée)",
+        "it": "Storia del minuto come JSON (alto carico)",
+        "es": "Historia de minutos como JSON (carga alta)",
+        "pl": "Minute History as JSON (ang.)",
+        "uk": "Найвища історія як JSON (Високе навантаження)",
+        "zh-cn": "1. 米洛·史(高负荷)"
+      },
+      "newLine": true,
+      "sm": 3
     }
   }
 }

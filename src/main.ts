@@ -213,20 +213,25 @@ class Myenergi extends utils.Adapter {
               this.log.error("Error getting zappi day: " + error);
               return;
             });
-            minutes = await this.hub.getGeneric(`/cgi-jday-Z${id}-${currentDate}`).catch((error) => {
-              this.log.error("Error getting zappi minutes: " + error);
-              return;
-            });
+            if (this.config.minuteHistory) {
+              minutes = await this.hub.getGeneric(`/cgi-jday-Z${id}-${currentDate}`).catch((error) => {
+                this.log.error("Error getting zappi minutes: " + error);
+                return;
+              });
+            }
           }
           if (type === "eddi") {
             day = await this.hub.getGeneric(`/cgi-jdayhour-E${id}-${currentDate}`).catch((error) => {
               this.log.error("Error getting eddi day: " + error);
               return;
             });
-            minutes = await this.hub.getGeneric(`/cgi-jday-E${id}-${currentDate}`).catch((error) => {
-              this.log.error("Error getting eddi minutes: " + error);
-              return;
-            });
+
+            if (this.config.minuteHistory) {
+              minutes = await this.hub.getGeneric(`/cgi-jday-E${id}-${currentDate}`).catch((error) => {
+                this.log.error("Error getting eddi minutes: " + error);
+                return;
+              });
+            }
           }
           day["U" + id] && this.json2iob.parse(id + ".history", day["U" + id]);
           await this.setObjectNotExistsAsync(id + ".history.hourJson", {
@@ -241,19 +246,20 @@ class Myenergi extends utils.Adapter {
             native: {},
           });
           day["U" + id] && this.setState(id + ".history.json", JSON.stringify(day["U" + id]), true);
-
-          await this.setObjectNotExistsAsync(id + ".history.minutesJson", {
-            type: "state",
-            common: {
-              name: "Raw JSON Minutes",
-              write: false,
-              read: true,
-              type: "string",
-              role: "json",
-            },
-            native: {},
-          });
-          minutes["U" + id] && this.setState(id + ".history.minutesJson", JSON.stringify(minutes["U" + id]), true);
+          if (this.config.minuteHistory) {
+            await this.setObjectNotExistsAsync(id + ".history.minutesJson", {
+              type: "state",
+              common: {
+                name: "Raw JSON Minutes",
+                write: false,
+                read: true,
+                type: "string",
+                role: "json",
+              },
+              native: {},
+            });
+            minutes["U" + id] && this.setState(id + ".history.minutesJson", JSON.stringify(minutes["U" + id]), true);
+          }
         }
       }
     } catch (error) {

@@ -7,6 +7,7 @@ declare global {
       username: string;
       password: string;
       interval: number;
+      minuteHistory: boolean;
     }
   }
 }
