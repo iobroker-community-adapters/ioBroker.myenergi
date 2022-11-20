@@ -58,22 +58,9 @@ class MyEnergi {
       return [];
     }
   }
-  async getZappiDay(serialNumber, date) {
+  async getGeneric(path) {
     try {
-      const data = await this._digest.get(
-        new URL(`${this._config.zappi_day_url}${serialNumber}-${date}`, this._config.base_url)
-      );
-      const jsonData = JSON.parse(data);
-      return jsonData;
-    } catch (error) {
-      return [];
-    }
-  }
-  async getEddiDay(serialNumber, date) {
-    try {
-      const data = await this._digest.get(
-        new URL(`${this._config.eddi_day_url}${serialNumber}-${date}`, this._config.base_url)
-      );
+      const data = await this._digest.get(new URL(`${path}`, this._config.base_url));
       const jsonData = JSON.parse(data);
       return jsonData;
     } catch (error) {

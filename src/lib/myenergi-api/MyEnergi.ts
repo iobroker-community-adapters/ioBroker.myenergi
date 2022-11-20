@@ -47,22 +47,9 @@ export class MyEnergi {
     }
   }
 
-  public async getZappiDay(serialNumber: string, date: string): Promise<any> {
+  public async getGeneric(path: string): Promise<any> {
     try {
-      const data = (await this._digest.get(
-        new URL(`${this._config.zappi_day_url}${serialNumber}-${date}`, this._config.base_url),
-      )) as string;
-      const jsonData = JSON.parse(data);
-      return jsonData;
-    } catch (error) {
-      return [];
-    }
-  }
-  public async getEddiDay(serialNumber: string, date: string): Promise<any> {
-    try {
-      const data = (await this._digest.get(
-        new URL(`${this._config.eddi_day_url}${serialNumber}-${date}`, this._config.base_url),
-      )) as string;
+      const data = (await this._digest.get(new URL(`${path}`, this._config.base_url))) as string;
       const jsonData = JSON.parse(data);
       return jsonData;
     } catch (error) {

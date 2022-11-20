@@ -31,6 +31,7 @@ var https = __toESM(require("https"));
 var import_AuthDigest = require("./AuthDigest");
 class Digest {
   constructor(baseUrl, username, password) {
+    this._etags = {};
     this._maxRedirectCount = 3;
     this._maxRetryCount = 2;
     this._baseUrl = new URL(baseUrl);
@@ -44,7 +45,13 @@ class Digest {
       let resData = "";
       if (!options.headers)
         options.headers = {};
-      options.headers.Authorization = (_a = this._authDigest) == null ? void 0 : _a.getAuthorization(options.method, options.path);
+      options.headers.Authorization = (_a = this._authDigest) == null ? void 0 : _a.getAuthorization(
+        options.method,
+        options.path
+      );
+      const etag = this._etags[options.path];
+      if (etag)
+        options.headers["If-None-Match"] = etag;
       const req = https.request(options, (res) => {
         var _a2, _b;
         if (res.statusCode == 401) {
@@ -78,13 +85,17 @@ class Digest {
           (_a2 = this._authDigest) == null ? void 0 : _a2.init(wwwAuth);
           if (!options.headers)
             options.headers = {};
-          options.headers.Authorization = (_b = this._authDigest) == null ? void 0 : _b.getAuthorization(options.method, options.path);
+          options.headers.Authorization = (_b = this._authDigest) == null ? void 0 : _b.getAuthorization(
+            options.method,
+            options.path
+          );
           return this.request(options, data, retryCount).then((value) => {
             resolve(value);
           }).catch((resaon) => {
             reject(resaon);
           });
         } else if (res.statusCode && res.statusCode >= 200 && res.statusCode < 300) {
+          this._etags[options.path] = res.headers.etag;
           const myenergiAsn = res.headers["x_myenergi-asn"];
           if (myenergiAsn && myenergiAsn !== "undefined" && myenergiAsn !== this._baseUrl.host) {
             if (redirectCount > this._maxRedirectCount) {
@@ -110,6 +121,10 @@ class Digest {
             resolve(resData);
           });
         } else if (res.statusCode && res.statusCode >= 300 && res.statusCode < 400) {
+          if (res.statusCode == 304) {
+            resolve("{}");
+            return;
+          }
           if (redirectCount > this._maxRedirectCount) {
             reject(`Too many redirects: ${res.headers["location"]}`);
             return;
@@ -141,7 +156,8 @@ class Digest {
       req.end();
     });
   }
-  get(requestUrl, data) {
+  get(requestUrl, data, _etags) {
+    const etag = _etags ? _etags[requestUrl.href] : void 0;
     const options = {
       hostname: this._baseUrl.hostname,
       host: this._baseUrl.host,
