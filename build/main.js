@@ -176,12 +176,15 @@ class Myenergi extends utils.Adapter {
   }
   async updateDevices() {
     try {
-      this.devices = await this.hub.getStatusAll().catch((error) => {
+      const devices = await this.hub.getStatusAll().catch((error) => {
         this.log.error("Error getting device list: " + error);
         return;
       });
-      this.log.debug(JSON.stringify(this.devices));
-      for (const deviceObjects of this.devices) {
+      if (devices === {}) {
+        return;
+      }
+      this.log.debug(JSON.stringify(devices));
+      for (const deviceObjects of devices) {
         const type = Object.keys(deviceObjects)[0];
         const deviceArray = deviceObjects[type];
         if (typeof deviceArray !== "object") {
@@ -214,7 +217,7 @@ class Myenergi extends utils.Adapter {
               return;
             });
           }
-          this.json2iob.parse(id + ".history", day["U" + id]);
+          day["U" + id] && this.json2iob.parse(id + ".history", day["U" + id]);
           await this.setObjectNotExistsAsync(id + ".history.json", {
             type: "state",
             common: {
@@ -226,7 +229,7 @@ class Myenergi extends utils.Adapter {
             },
             native: {}
           });
-          this.setState(id + ".history.json", JSON.stringify(day["U" + id]), true);
+          day["U" + id] && this.setState(id + ".history.json", JSON.stringify(day["U" + id]), true);
           await this.setObjectNotExistsAsync(id + ".historyMinutes.json", {
             type: "state",
             common: {
@@ -238,7 +241,7 @@ class Myenergi extends utils.Adapter {
             },
             native: {}
           });
-          this.setState(id + ".historyMinutes.json", JSON.stringify(minutes["U" + id]), true);
+          minutes["U" + id] && this.setState(id + ".historyMinutes.json", JSON.stringify(minutes["U" + id]), true);
         }
       }
     } catch (error) {
