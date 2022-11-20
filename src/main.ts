@@ -229,7 +229,7 @@ class Myenergi extends utils.Adapter {
             });
           }
           day["U" + id] && this.json2iob.parse(id + ".history", day["U" + id]);
-          await this.setObjectNotExistsAsync(id + ".history.json", {
+          await this.setObjectNotExistsAsync(id + ".history.hourJson", {
             type: "state",
             common: {
               name: "Raw JSON History hours",
@@ -242,7 +242,7 @@ class Myenergi extends utils.Adapter {
           });
           day["U" + id] && this.setState(id + ".history.json", JSON.stringify(day["U" + id]), true);
 
-          await this.setObjectNotExistsAsync(id + ".historyMinutes.json", {
+          await this.setObjectNotExistsAsync(id + ".history.minutesJson", {
             type: "state",
             common: {
               name: "Raw JSON Minutes",
@@ -253,7 +253,7 @@ class Myenergi extends utils.Adapter {
             },
             native: {},
           });
-          minutes["U" + id] && this.setState(id + ".historyMinutes.json", JSON.stringify(minutes["U" + id]), true);
+          minutes["U" + id] && this.setState(id + ".history.minutesJson", JSON.stringify(minutes["U" + id]), true);
         }
       }
     } catch (error) {
