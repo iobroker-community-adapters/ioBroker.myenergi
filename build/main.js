@@ -233,7 +233,7 @@ class Myenergi extends utils.Adapter {
             },
             native: {}
           });
-          day["U" + id] && this.setState(id + ".history.minutesJson", JSON.stringify(day["U" + id]), true);
+          day["U" + id] && this.setState(id + ".history.hourJson", JSON.stringify(day["U" + id]), true);
           if (this.config.minuteHistory) {
             await this.setObjectNotExistsAsync(id + ".history.minutesJson", {
               type: "state",
