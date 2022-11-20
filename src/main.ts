@@ -56,7 +56,7 @@ class Myenergi extends utils.Adapter {
     await this.updateDevices();
     this.updateInterval = setInterval(async () => {
       await this.updateDevices();
-    }, this.config.interval * 1000 * 60);
+    }, this.config.interval * 1000);
   }
 
   async getDeviceList(): Promise<void> {
