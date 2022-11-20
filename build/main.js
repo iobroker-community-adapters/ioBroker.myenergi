@@ -180,7 +180,7 @@ class Myenergi extends utils.Adapter {
         this.log.error("Error getting device list: " + error);
         return;
       });
-      if (devices === {}) {
+      if (!Array.isArray(devices)) {
         return;
       }
       this.log.debug(JSON.stringify(devices));
