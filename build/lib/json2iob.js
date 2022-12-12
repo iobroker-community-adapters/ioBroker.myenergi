@@ -51,7 +51,7 @@ class Json2iob {
       bsm: "Boost Mode Manual",
       che: "Latest charge session. Charge added in kWh",
       cmt: "Command Timer - counts 1 - 10 when command sent, then 254 - success, 253 - failure, 255 - never received any commands",
-      div: "Diversion amount Watts",
+      div: "Diversion amount Watts/ Aktuelle Ladeleistung in W",
       dst: "Daylight Savings Time enabled",
       frq: "Supply Frequency",
       gen: "Generated Watts",

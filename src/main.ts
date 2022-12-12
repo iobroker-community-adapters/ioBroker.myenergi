@@ -203,7 +203,9 @@ class Myenergi extends utils.Adapter {
         for (const device of deviceArray) {
           device.type = type;
           const id = device.sno.toString();
-
+          if (device.ectp1 != null && device.ectp2 != null && device.ectp3 != null) {
+            device.ectpSum = device.ectp1 + device.ectp2 + device.ectp3;
+          }
           this.json2iob.parse(id, device);
           const currentDate = new Date().toISOString().split("T")[0];
           let day = {};
