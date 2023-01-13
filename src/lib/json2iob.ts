@@ -9,7 +9,6 @@ autoCast (true false) // make JSON.parse to parse numbers correctly
 descriptions: Object of names for state keys
 */
 
-//@ts-nocheck
 import JSONbig from "json-bigint";
 ({ storeAsString: true });
 export default class Json2iob {
