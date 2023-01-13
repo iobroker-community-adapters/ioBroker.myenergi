@@ -5,6 +5,7 @@
 // The adapter-core module gives you access to the core ioBroker functions
 // you need to create an adapter
 
+//@ts-nocheck
 import * as utils from "@iobroker/adapter-core";
 import Json2iob from "./lib/json2iob";
 import { MyEnergi } from "./lib/myenergi-api";
