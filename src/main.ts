@@ -168,8 +168,8 @@ class Myenergi extends utils.Adapter {
             common: {
               name: remote.name || "",
               type: remote.type || "boolean",
-              role: remote.role || "boolean",
-              def: remote.def || false,
+              role: remote.role || "button",
+              def: remote.def !== null ? remote.def : false,
               states: remote.states || undefined,
               write: true,
               read: true,
