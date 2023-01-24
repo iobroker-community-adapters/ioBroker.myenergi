@@ -116,6 +116,13 @@ class Myenergi extends utils.Adapter {
             },
           });
           remoteArray.push({
+            command: "lockZappi",
+            name: "Unlock = 2 / Lock = 64 / Unlock = 00000010",
+            type: "string",
+            role: "value",
+            def: "2",
+          });
+          remoteArray.push({
             command: "setZappiGreenLevel",
             name: "Set minimum green level to decide how much grid power zappi uses to keep the 1.4kW minimum charge rate going.",
             type: "number",
@@ -315,6 +322,9 @@ class Myenergi extends utils.Adapter {
           if (command === "setZappiBoostMode") {
             const valueArray = JSON.parse(state.val);
             const result = await this.hub.setZappiBoostMode(deviceId, valueArray[0], valueArray[1], valueArray[2]);
+            this.log.info(JSON.stringify(result));
+          } else if (command === "lockZappi") {
+            const result = await this.hub.getGeneric(`/cgi-jlock-Z${deviceId}-${state.val}`);
             this.log.info(JSON.stringify(result));
           } else {
             const result = await this.hub[command](deviceId, state.val);
