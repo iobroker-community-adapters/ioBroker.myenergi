@@ -38,10 +38,12 @@ var EddiBoost = /* @__PURE__ */ ((EddiBoost2) => {
   return EddiBoost2;
 })(EddiBoost || {});
 var EddiHeaterStatus = /* @__PURE__ */ ((EddiHeaterStatus2) => {
+  EddiHeaterStatus2[EddiHeaterStatus2["Starting"] = 0] = "Starting";
   EddiHeaterStatus2[EddiHeaterStatus2["Paused"] = 1] = "Paused";
+  EddiHeaterStatus2[EddiHeaterStatus2["DSR"] = 2] = "DSR";
   EddiHeaterStatus2[EddiHeaterStatus2["Diverting"] = 3] = "Diverting";
   EddiHeaterStatus2[EddiHeaterStatus2["Boost"] = 4] = "Boost";
-  EddiHeaterStatus2[EddiHeaterStatus2["MaxTempReached"] = 5] = "MaxTempReached";
+  EddiHeaterStatus2[EddiHeaterStatus2["Hot"] = 5] = "Hot";
   EddiHeaterStatus2[EddiHeaterStatus2["Stopped"] = 6] = "Stopped";
   return EddiHeaterStatus2;
 })(EddiHeaterStatus || {});
