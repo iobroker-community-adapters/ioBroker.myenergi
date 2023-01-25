@@ -301,7 +301,7 @@ class Myenergi extends utils.Adapter {
             const result = await this.hub.setZappiBoostMode(deviceId, valueArray[0], valueArray[1], valueArray[2]);
             this.log.info(JSON.stringify(result));
           } else if (command === "lockZappi") {
-            this.log.info(`Send /cgi-jlock-Z${deviceId}-${state.val}`);
+            this.log.info(`Send /cgi-jlock-${deviceId}-${state.val}`);
             const result = await this.hub.getGeneric(`/cgi-jlock-${deviceId}-${state.val}`);
             this.log.info(JSON.stringify(result));
           } else {
