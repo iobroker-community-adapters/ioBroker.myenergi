@@ -302,7 +302,7 @@ class Myenergi extends utils.Adapter {
             this.log.info(JSON.stringify(result));
           } else if (command === "lockZappi") {
             this.log.info(`Send /cgi-jlock-Z${deviceId}-${state.val}`);
-            const result = await this.hub.getGeneric(`/cgi-jlock-Z${deviceId}-${state.val}`);
+            const result = await this.hub.getGeneric(`/cgi-jlock-${deviceId}-${state.val}`);
             this.log.info(JSON.stringify(result));
           } else {
             const result = await this.hub[command](deviceId, state.val);
