@@ -28,6 +28,10 @@ Dazu auf "Advanced" klicken, Key generieren
 
 ## Changelog
 
+### 0.0.3
+
+add zappi unlock
+
 ### 0.0.2
 
 - (TA2k) initial release

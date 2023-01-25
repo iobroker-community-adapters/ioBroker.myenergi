@@ -108,10 +108,10 @@ class Myenergi extends utils.Adapter {
           });
           remoteArray.push({
             command: "lockZappi",
-            name: "Unlock = 2 / Lock = 64 / Unlock = 00000010",
+            name: "Unlock = 00000010",
             type: "string",
             role: "value",
-            def: "2"
+            def: "00000010"
           });
           remoteArray.push({
             command: "setZappiGreenLevel",
