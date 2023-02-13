@@ -69,6 +69,7 @@ class Myenergi extends utils.Adapter {
     });
 
     this.setState("info.connection", true, true);
+    this.log.info(`Found ${this.devices.length} devices`);
     this.log.debug(JSON.stringify(this.devices));
 
     for (const deviceObjects of this.devices) {
