@@ -15,7 +15,7 @@
 
 Adapter for Myenergi devices
 
-## Logina:
+## Login:
 
 Enter the Myenergie Hub serial number and API key
 The serial numbers can be found at https://myaccount.myenergi.com/ under the “myenergi products” tab.
