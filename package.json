@@ -21,7 +21,7 @@
     "node": ">= 16"
   },
   "dependencies": {
-    "@iobroker/adapter-core": "^2.6.8",
+    "@iobroker/adapter-core": "^3.0.6",
     "json-bigint": "^1.0.0"
   },
   "devDependencies": {
