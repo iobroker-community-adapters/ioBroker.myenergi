@@ -14,6 +14,10 @@ var __copyProps = (to, from, except, desc) => {
   return to;
 };
 var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+  // If the importer is in node compatibility mode or this is not an ESM
+  // file that has been converted to a CommonJS file using a Babel-
+  // compatible transform (i.e. "__esModule" has not been set), then set
+  // "default" to the CommonJS "module.exports" for node compatibility.
   isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
   mod
 ));
@@ -36,6 +40,9 @@ class Myenergi extends utils.Adapter {
     this.devices = {};
     this.json2iob = new import_json2iob.default(this);
   }
+  /**
+   * Is called when databases are connected and adapter received configuration.
+   */
   async onReady() {
     this.setState("info.connection", false, true);
     if (this.config.interval < 0.5) {
@@ -205,7 +212,7 @@ class Myenergi extends utils.Adapter {
             device.ectpSum = device.ectp1 + device.ectp2 + device.ectp3;
           }
           this.json2iob.parse(id, device);
-          const currentDate = new Date().toISOString().split("T")[0];
+          const currentDate = (/* @__PURE__ */ new Date()).toISOString().split("T")[0];
           let day = {};
           let minutes = {};
           if (type === "zappi") {
@@ -271,6 +278,9 @@ class Myenergi extends utils.Adapter {
   async refreshToken() {
     this.log.debug("Refresh token");
   }
+  /**
+   * Is called when adapter shuts down - callback has to be called under any circumstances!
+   */
   onUnload(callback) {
     try {
       this.setState("info.connection", false, true);
@@ -284,6 +294,9 @@ class Myenergi extends utils.Adapter {
       callback();
     }
   }
+  /**
+   * Is called if a subscribed state changes
+   */
   async onStateChange(id, state) {
     if (state) {
       if (!state.ack) {
