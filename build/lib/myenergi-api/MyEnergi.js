@@ -42,6 +42,7 @@ class MyEnergi {
       eddi_boost_url: "/cgi-eddi-boost-E",
       get_app_key_url: "/cgi-get-app-key",
       set_app_key_url: "/cgi-set-app-key"
+      //https://s18.myenergi.net/cgi-jdayhour-Znnnnnnnn-YYYY-MM-DD
     };
     this._config.username = username;
     this._config.password = password;
