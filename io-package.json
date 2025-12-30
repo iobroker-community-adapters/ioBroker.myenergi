@@ -44,8 +44,15 @@
       "pl": "Adapter do urządzeń Myenergi",
       "zh-cn": "Myenergi 设备适配器"
     },
-    "authors": ["TA2k <tombox2020@gmail.com>"],
-    "keywords": ["myenergi", "zappi", "eddi"],
+    "authors": [
+      "TA2k <tombox2020@gmail.com>",
+      "iobroker-community-adapters <iobroker-community-adapters@gmx.de>"
+    ],
+    "keywords": [
+      "myenergi",
+      "zappi",
+      "eddi"
+    ],
     "license": "MIT",
     "platform": "Javascript/Node.js",
     "main": "build/main.js",
@@ -64,17 +71,21 @@
     },
     "dependencies": [
       {
-        "js-controller": ">=3.2.0"
+        "js-controller": ">=6.0.11"
       }
     ],
     "globalDependencies": [
       {
-        "admin": ">=5.2.28"
+        "admin": ">=7.6.17"
       }
     ]
   },
-  "encryptedNative": ["password"],
-  "protectedNative": ["password"],
+  "encryptedNative": [
+    "password"
+  ],
+  "protectedNative": [
+    "password"
+  ],
   "native": {
     "username": "",
     "password": "",
