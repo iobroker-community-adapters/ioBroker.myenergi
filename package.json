@@ -9,6 +9,7 @@
   "homepage": "https://github.com/iobroker-community-adapters/ioBroker.myenergi",
   "license": "MIT",
   "keywords": [
+    "ioBroker",
     "myenergi",
     "zappi",
     "eddi"
