@@ -1,4 +1,4 @@
-import * as crypto from "crypto";
+import * as crypto from "node:crypto";
 
 export class AuthDigest {
     private _password?: string | undefined;

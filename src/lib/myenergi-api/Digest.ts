@@ -1,6 +1,6 @@
-import { IncomingMessage } from "http";
-import * as https from "https";
-import { RequestOptions } from "https";
+import { IncomingMessage } from "node:http";
+import * as https from "node:https";
+import { RequestOptions } from "node:https";
 import { AuthDigest } from "./AuthDigest";
 
 export class Digest {
