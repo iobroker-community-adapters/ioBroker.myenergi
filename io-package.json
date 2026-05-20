@@ -61,6 +61,7 @@
     "extIcon": "https://raw.githubusercontent.com/iobroker-community-adapters/ioBroker.myenergi/main/admin/myenergi.png",
     "readme": "https://github.com/iobroker-community-adapters/ioBroker.myenergi/blob/main/README.md",
     "loglevel": "info",
+    "tier": 2,
     "mode": "daemon",
     "type": "energy",
     "compact": true,
