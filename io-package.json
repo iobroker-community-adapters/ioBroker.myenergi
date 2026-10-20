@@ -52,7 +52,10 @@
       "zappi",
       "eddi"
     ],
-    "license": "MIT",
+    "licenseInformation": {
+      "type": "free",
+      "license": "MIT"
+    },
     "platform": "Javascript/Node.js",
     "icon": "myenergi.png",
     "enabled": true,
